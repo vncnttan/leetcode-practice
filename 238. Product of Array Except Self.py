@@ -14,7 +14,6 @@ def productExceptSelf(nums):
     for i in range(numLen-2, -1, -1):
         rightArr[i] = rightArr[i+1] * nums[i+1]
 
-    print(leftArr, rightArr)
     arrayResult = []
     for i in range(numLen):
         arrayResult.append(leftArr[i] * rightArr[i])
