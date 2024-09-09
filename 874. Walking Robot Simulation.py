@@ -10,32 +10,40 @@ def robotSim(commands, obstacles):
     maxEuclid = math.trunc(currentPos[0] * currentPos[0] + currentPos[1] * currentPos[1])
 
     robotDirection = (0, 1)
+    obstacleSet = set((i,j) for i,j in obstacles)
 
     for c in commands:
         if c > 0:
             # Move to a direction
-            initialPos = currentPos
-            currentPos = (currentPos[0] + robotDirection[0] * c, currentPos[1] + robotDirection[1] * c)
-            
-            for o in obstacles:
-                if initialPos[0] == currentPos[0] and initialPos[0] == o[0]:
-                    # If the obstacle is in the middle of the current and initial, then change it
-                    if (initialPos[1] < o[1] and o[1] <= currentPos[1]):
-                        currentPos = (o[0], o[1]-1)
-                    if  (initialPos[1] > o[1] and o[1] >= currentPos[1]):
-                        currentPos = (o[0], o[1]+1)
 
-                elif initialPos[1] == currentPos[1] and initialPos[1] == o[1]:
-                    if (initialPos[0] < o[0] and o[0] <= currentPos[0]):
-                        currentPos = (o[0]-1, o[1])
-                    if (initialPos[0] > o[0] and o[0] >= currentPos[0]):
-                        currentPos = (o[0]+1, o[1])
+            initialPos = currentPos
+            for _ in range(c):
+                if (currentPos[0] + robotDirection[0], currentPos[1] + robotDirection[1]) in obstacleSet:
+                    break
+                
+                currentPos = (currentPos[0] + robotDirection[0], currentPos[1] + robotDirection[1])
+
+                # currentPos = (currentPos[0] + robotDirection[0] * c, currentPos[1] + robotDirection[1] * c)
+                
+                # for o in obstacles:
+                #     if initialPos[0] == currentPos[0] and initialPos[0] == o[0]:
+                #         # If the obstacle is in the middle of the current and initial, then change it
+                #         if (initialPos[1] < o[1] and o[1] <= currentPos[1]):
+                #             currentPos = (o[0], o[1]-1)
+                #         if  (initialPos[1] > o[1] and o[1] >= currentPos[1]):
+                #             currentPos = (o[0], o[1]+1)
+
+                #     elif initialPos[1] == currentPos[1] and initialPos[1] == o[1]:
+                #         if (initialPos[0] < o[0] and o[0] <= currentPos[0]):
+                #             currentPos = (o[0]-1, o[1])
+                #         if (initialPos[0] > o[0] and o[0] >= currentPos[0]):
+                #             currentPos = (o[0]+1, o[1])
 
             print("Initial Pos: ", initialPos)
             print("Current Pos: ", currentPos)
             print("Robot Direction: ", robotDirection)
 
-            maxEuclid = max(maxEuclid, math.trunc(currentPos[0] * currentPos[0] + currentPos[1] * currentPos[1]))
+            maxEuclid = max(maxEuclid, math.trunc(currentPos[0] ** 2 + currentPos[1] ** 2))
             print("Max Euclid: ", maxEuclid)
             print()
 
